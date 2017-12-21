@@ -31,30 +31,29 @@ public class MainActivity extends AppCompatActivity {
 
             public void run()
             {
+                //建立链接
                 HttpURLConnection conn;
                 String uri = "http://192.168.1.112:8080/MyServer/FromAndroid";
-
-        /*建立HTTP Post连线*/
+                /*建立HTTP Post连线*/
                 try {
+                    //建立地址
                     URL url= new URL(uri);
+                    //打开链接
                     conn= (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setConnectTimeout(5000);
-                    Log.i("test","1");
+                    conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(500);
+                    //输出流，流向服务端
                     OutputStream os=conn.getOutputStream();
+                    //写入服务端
                     os.write(URLEncoder.encode(input,"utf-8").getBytes());
                     int code = conn.getResponseCode();
                     Log.i("abc",code+"");
-
                     if (code == 200) {
                         InputStream is = conn.getInputStream();
-
                         String state = getStreamFromInputstream(is);
                         Log.i("bcd",state);
                         result =state;
                     }
-
-
                     conn.disconnect();
 
                 } catch (Exception e) {
@@ -90,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 input=et1.getText().toString();
-               String res= send(input);
+                String res= send(input);
                 Log.i("test:",res);
             }
         });
